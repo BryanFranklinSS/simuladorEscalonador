@@ -25,7 +25,6 @@ Lista* processo_retira(Fila* f, int prio){
 	 }
 	    ant->prox = p->prox;
 	 
-	    printf("retirado: %d", p->inf[2]);
 	    return p;
 	    free(p);
   }
@@ -50,10 +49,19 @@ Lista* processo_retira(Fila* f, int prio){
 		}
 
 	}
-	printf("\nprocesso de maior prioridade\n e menor tempo de execucao: pid %d\nesse processo sera retirado da\n fila de pronto para\n ser executado na MP\n", aux2->inf[0]);
+	printf("\nPROCESSO  (id %d) MOVIDO PARA MP...\n", aux2->inf[0]);
 	 insere(mp, processo_retira(pronto, maiorprio)) ;
+	        printf("\n");
+	 printf("fila[processos pronto]: ");
+	 fila_imprime(pronto);
+	        printf("\n");
+	 printf("fila[MP]: ");
+	 fila_imprime(mp);
+	 printf("===========================");
 }
 
+	
+	
 
 	
 Fila* fila_cria(void) {						// cria uma fila, alocando memória para ela
@@ -79,18 +87,20 @@ void fila_insere(Fila* f, float v) {			// insere um elemento (nó) no fim da fila
 	n->info = v;
 	Lista* aux;
 	int i, maiorprio;
+	srand(time(NULL));
 	
 //	for(i=1; i<=3; i++){
 	//	printf("v[%d]: ", i);
 	printf("prio "); // apagar
 		scanf("%d", &n->inf[2]);
-		n->inf[1] = 1;//apagar
-		n->inf[3] = 1;//apagar
+	printf("tipo de processo: ");
+	    scanf("%d", &n->inf[1]);
 //		}
 		printf("\n");
 		
-	srand(time(NULL));
-	n->inf[0] = (10000 + rand() % 10000);	  //
+
+	n->inf[0] = (1000*(1 + rand() % 9)) + (100*(1 + rand() % 9)) + (10*(1 + rand() % 9)) + (1 + rand() % 9);
+	n->inf[3] = (1 + rand() % 9);
 	n->inf[4] = 1;                              //o estado dos processos criados são considerados como pronto
 						
 	n->prox = NULL;	
@@ -105,7 +115,7 @@ void fila_insere(Fila* f, float v) {			// insere um elemento (nó) no fim da fila
 	f->fim = n;	
 	
 	
-	printf("processo criado");
+	printf("PROCESSO (id: %d) CRIADO...", n->inf[0]);
 	for(i = 0; i<5; i++){
 		printf("\nv[%d] = %d", i, f->fim->inf[i]);
 	}printf("\n\n");				
@@ -145,10 +155,11 @@ void fila_imprime(Fila* f){
 	Lista* aux;
 	int i = 0;
 			for(aux = f->ini; aux!= NULL; aux = aux->prox){
-	   for(i=0; i<5; i++){
+	  // for(i=0; i<5; i++){
 	   
-	       printf("%d ", aux->inf[i]);
-         } printf("\n");
-	}
+	       printf("\n(id:%d) ", aux->inf[0]);
+        // } 
+		//printf("\n");
+	} printf("\n");
 }
 
