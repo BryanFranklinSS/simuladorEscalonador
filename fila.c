@@ -86,21 +86,32 @@ void fila_insere(Fila* f, float v) {			// insere um elemento (nó) no fim da fila
 	Lista* n = (Lista*) malloc(sizeof(Lista));	// aloca memória para o novo nó
 	n->info = v;
 	Lista* aux;
-	int i, maiorprio;
+	int i, tipo;
 	srand(time(NULL));
 	
 //	for(i=1; i<=3; i++){
 	//	printf("v[%d]: ", i);
-	printf("prio "); // apagar
+	printf("  prioridade do processo: "); 
 		scanf("%d", &n->inf[2]);
-	printf("tipo de processo: ");
-	    scanf("%d", &n->inf[1]);
+	printf("\n  tipo de processo:\n  (1) para CPU_bound\n  (2) para I/O_bound\n ->");
+	    scanf("%d", &tipo);
+	     
+	     while(!(!(tipo!=1) || !(tipo!=2))){
+	     	printf("entrada invalida... digite novamente: ");
+	     	scanf("%d", &tipo);
+		 } 
+		    n->inf[1] = tipo;
 //		}
 		printf("\n");
 		
 
 	n->inf[0] = (1000*(1 + rand() % 9)) + (100*(1 + rand() % 9)) + (10*(1 + rand() % 9)) + (1 + rand() % 9);
-	n->inf[3] = (1 + rand() % 9);
+	if(n->inf[1]== 1)
+	   n->inf[3] = (1 + rand() % 9);
+	if(n->inf[1] == 2){
+	   n->inf[3] = (3 + rand() % 8) + (3 + rand() % 8);	
+	}
+	
 	n->inf[4] = 1;                              //o estado dos processos criados são considerados como pronto
 						
 	n->prox = NULL;	
@@ -115,10 +126,15 @@ void fila_insere(Fila* f, float v) {			// insere um elemento (nó) no fim da fila
 	f->fim = n;	
 	
 	
-	printf("PROCESSO (id: %d) CRIADO...", n->inf[0]);
-	for(i = 0; i<5; i++){
-		printf("\nv[%d] = %d", i, f->fim->inf[i]);
-	}printf("\n\n");				
+	printf("PROCESSO (id: %d) -", n->inf[0]);
+	 if(n->inf[1] == 1)
+	          printf(" CPU_bound -");
+	       if(n->inf[1] == 2)
+	          printf(" I/O_bound -");
+	        printf(" prio: %d", n->inf[2]);
+	printf(" CRIADO...\n");
+	printf("\n");	
+				
 }
 
 int fila_vazia(Fila* f) {		// verifica se a fila está vazia ou não
@@ -157,7 +173,12 @@ void fila_imprime(Fila* f){
 			for(aux = f->ini; aux!= NULL; aux = aux->prox){
 	  // for(i=0; i<5; i++){
 	   
-	       printf("\n(id:%d) ", aux->inf[0]);
+	       printf("\n  (id:%d) -", aux->inf[0]);
+	       if(aux->inf[1] == 1)
+	          printf("  CPU_bound -");
+	       if(aux->inf[1] == 2)
+	          printf(" I/O_bound -");
+	        printf(" prio: %d", aux->inf[2]);
         // } 
 		//printf("\n");
 	} printf("\n");

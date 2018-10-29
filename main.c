@@ -1,5 +1,6 @@
 #include <stdio.h>
 #include <stdlib.h>
+#include <time.h>
 #include "fila.h"
 
 
@@ -21,7 +22,9 @@ int main(void){
 
     fila_imprime(f_pronto);
     
+        printf("\n================================\n ");
         printf("\nESCALONAMENTO DE PROCESSOS INICIADO...");
+        printf("\n================================\n ");
     escalonador(MP, f_pronto);
     escalonador(MP, f_pronto);
     escalonador(MP, f_pronto);
@@ -38,6 +41,7 @@ int main(void){
 
  void execucao(Fila* mp, Fila* pnt, Fila* esp){
  	Lista* l;
+ 	int cont;
  	
  	l = mp->ini;
  	mp->ini = l->prox;
@@ -52,13 +56,23 @@ int main(void){
 	   	insere(esp, l);
 	   }
 	   
-	   printf("\================================\n ");
-	   printf("processo (id:%d) executado...\n", l->inf[0]);
-	   if(l->inf[1] == 1)
-	     printf("retorna para fila[processos prontos]\n");
-	   if(l->inf[1] == 2)
-	     printf("retorna para fila[espera]\n");
+	   printf("================================\n");
+	   printf("processo (id:%d) - prio: %d, executando...\n", l->inf[0], l->inf[2]);
+	     printf("  tempo de execucao: %d segundos\n", l->inf[3]);
+	     	sleep(1);
+	      for(cont = 1; cont<=l->inf[3]; cont++ ){
+	      	printf("  %d... ", cont);
+	      	sleep(1);
+		  } 
+		  printf("\n  execucao concluida... ");
+		  sleep(1);
 	   
+	   if(l->inf[1] == 1)
+	     printf("  enviado para fila[processos prontos]\n");
+	   if(l->inf[1] == 2)
+	     printf("  enviado para fila[espera]\n");
+	     
+	    printf("================================\n");
 	    printf("\nfila[MP]: ");
 	    fila_imprime(mp);
 	   
