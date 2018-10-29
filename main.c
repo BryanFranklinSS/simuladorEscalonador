@@ -3,8 +3,7 @@
 #include "fila.h"
 
 int main(void){
-	Lista* aux;
-	int i;
+
 	
 	Fila* f_espera = fila_cria();
 	Fila* f_pronto = fila_cria();
@@ -19,6 +18,8 @@ int main(void){
 
     fila_imprime(f_pronto);
 
+    escalonador(MP, f_pronto);
+    escalonador(MP, f_pronto);
     escalonador(MP, f_pronto);
 
     printf("\nfila de processos prontos\napos retirada:\n");

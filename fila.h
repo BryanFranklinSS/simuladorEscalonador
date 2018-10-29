@@ -19,7 +19,9 @@ struct fila {
 
 void escalonador(Fila* f, Fila* g);
 
-Lista* processo_retira(Lista* f, int id);
+Lista* processo_retira(Fila* f, int prio);
+
+void insere(Fila* f, Lista* n);
 
 /* Função cria
 ** Aloca memória para uma estrutura do tipo Fila e retorna o ponteiro

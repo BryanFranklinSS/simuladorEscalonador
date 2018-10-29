@@ -8,29 +8,30 @@
 #include <stdlib.h>
 #include "fila.h"
 
-
-
-
-Lista* processo_retira(Lista* l, int prio){
- 	Lista* ant = NULL;
- 	Lista* p = l;
- 
-
- 
- 	while(p!= NULL && p->inf[2]!= prio){
- 		ant = p;
- 		p = p->prox;
- 	}
- 		if(ant== NULL)
- 		   l = p->prox;
- 		else{
-		 
- 		   ant->prox = p->prox;  
-}
- 		return p;  // returna o processo retirado
- 		free(p);		
+Lista* processo_retira(Fila* f, int prio){
+	Lista* p;
+	Lista* ant;
+	
+	p = f->ini;
+	if( p->inf[2] == prio){
+		f->ini = f->ini->prox;
+		return p;
+		free(p);
+		
+   }
+	 else{
+	   for( p = f->ini; p->inf[2]!= prio; p= p->prox){
+	              ant = p;
+	 }
+	    ant->prox = p->prox;
 	 
- }
+	    printf("retirado: %d", p->inf[2]);
+	    return p;
+	    free(p);
+  }
+}
+
+
  
  void escalonador(Fila* mp, Fila* pronto){
 	int maiorprio = 0, tempoexe = 0;
@@ -50,7 +51,7 @@ Lista* processo_retira(Lista* l, int prio){
 
 	}
 	printf("\nprocesso de maior prioridade\n e menor tempo de execucao: pid %d\nesse processo sera retirado da\n fila de pronto para\n ser executado na MP\n", aux2->inf[0]);
-	 mp->ini = processo_retira(pronto->ini, aux2->inf[2]);
+	 insere(mp, processo_retira(pronto, maiorprio)) ;
 }
 
 
@@ -61,6 +62,17 @@ Fila* fila_cria(void) {						// cria uma fila, alocando memória para ela
 					// inicializa os dois ponteiros (ini e fim) como nulos, pois a fila está vazia
 	return f;								// retorna o ponteiro que aponta para o endereço alocado
 }
+
+void insere(Fila* f, Lista* n){
+	n->prox = NULL;
+	if(f->fim !=NULL)
+	   f->fim->prox =n;
+	else
+	   f->ini = n;
+	   f->fim = n;
+}
+
+
 	
 void fila_insere(Fila* f, float v) {			// insere um elemento (nó) no fim da fila 
 	Lista* n = (Lista*) malloc(sizeof(Lista));	// aloca memória para o novo nó
