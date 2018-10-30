@@ -8,26 +8,33 @@
 #include <stdlib.h>
 #include "fila.h"
 
-Lista* processo_retira(Fila* f, int prio){
+Lista* processo_retira(Fila* f, int prio, int id){
 	Lista* p;
+	Lista* q = (Lista*) malloc(sizeof(Lista));
 	Lista* ant;
+	int i;
 	
 	p = f->ini;
-	if( p->inf[2] == prio){
+	if( p->inf[2] == prio && p->inf[0] == id){
 		f->ini = f->ini->prox;
-		return p;
-		free(p);
-		
+		for(i=0; i<4; i++){
+			q->inf[i] = p->inf[i];
+		}
+	
+	
    }
 	 else{
-	   for( p = f->ini; p->inf[2]!= prio; p= p->prox){
+	   for( p = f->ini; p->inf[2]!= prio && p->inf[0]!= id; p= p->prox){
 	              ant = p;
 	 }
 	    ant->prox = p->prox;
-	 
-	    return p;
-	    free(p);
+	 	for(i=0; i<4; i++){
+			q->inf[i] = p->inf[i];
+		}
+	  
   }
+  free(p);
+  return q;
 }
 
 
@@ -50,7 +57,7 @@ Lista* processo_retira(Fila* f, int prio){
 
 	}
 	printf("\nPROCESSO  (id %d) MOVIDO PARA MP...\n", aux2->inf[0]);
-	 insere(mp, processo_retira(pronto, maiorprio)) ;
+	 insere(mp, processo_retira(pronto, maiorprio, aux2->inf[0])) ;
 	        printf("\n");
 	 printf("fila[processos pronto]: ");
 	 fila_imprime(pronto);
@@ -107,12 +114,12 @@ void fila_insere(Fila* f, float v) {			// insere um elemento (nó) no fim da fila
 
 	n->inf[0] = (1000*(1 + rand() % 9)) + (100*(1 + rand() % 9)) + (10*(1 + rand() % 9)) + (1 + rand() % 9);
 	if(n->inf[1]== 1)
-	   n->inf[3] = (1 + rand() % 9);
+	   n->inf[3] = (1 + rand() % 3);
 	if(n->inf[1] == 2){
-	   n->inf[3] = (3 + rand() % 8) + (3 + rand() % 8);	
+	   n->inf[3] = (3 + rand() % 5);	
 	}
 	
-	n->inf[4] = 1;                              //o estado dos processos criados são considerados como pronto
+
 						
 	n->prox = NULL;	
 								// faz o próximo do nó ser nulo, pois será o último
@@ -169,7 +176,11 @@ void fila_libera(Fila* f) {		// libera a memória alocada para a fila
 
 void fila_imprime(Fila* f){
 	Lista* aux;
-	int i = 0;
+
+	
+		if(fila_vazia(f)) {			
+		printf("Fila vazia...");							
+	}
 			for(aux = f->ini; aux!= NULL; aux = aux->prox){
 	  // for(i=0; i<5; i++){
 	   

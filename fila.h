@@ -6,7 +6,7 @@ typedef struct lista Lista;
 
 struct lista {	// estrutura lista para implementação da lista
 	float info;
-	int inf[5];
+	int inf[4];
 	struct lista* prox;
 };
 
@@ -19,7 +19,7 @@ struct fila {
 
 void escalonador(Fila* f, Fila* g);
 
-Lista* processo_retira(Fila* f, int prio);
+Lista* processo_retira(Fila* f, int prio, int id);
 
 void insere(Fila* f, Lista* n);
 

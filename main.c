@@ -11,9 +11,10 @@ int main(void){
 	
 	Fila* f_espera = fila_cria();
 	Fila* f_pronto = fila_cria();
+	Fila* f_pronto2 = fila_cria();
 	Fila* MP = fila_cria();
 	
-	fila_insere(f_pronto, 3);
+
 	fila_insere(f_pronto, 3);
 	fila_insere(f_pronto, 3);
 	fila_insere(f_pronto, 3);
@@ -30,7 +31,9 @@ int main(void){
     escalonador(MP, f_pronto);
 	
 	    printf("\nEXECUCAO INICIADA...\n");
-	execucao(MP, f_pronto, f_espera);
+	execucao(MP, f_pronto2, f_espera);
+	execucao(MP, f_pronto2, f_espera);
+	execucao(MP, f_pronto2, f_espera);
 	
 	fila_libera(f_espera);
 	fila_libera(f_pronto);
@@ -40,20 +43,25 @@ int main(void){
 }
 
  void execucao(Fila* mp, Fila* pnt, Fila* esp){
+ 	Lista* k = (Lista*) malloc(sizeof(Lista));
  	Lista* l;
- 	int cont;
+ 	int cont, i;
  	
  	l = mp->ini;
- 	mp->ini = l->prox;
+ 	mp->ini = mp->ini->prox;
  	if(mp->ini == NULL)
  	  mp->fim == NULL;
  	  
+ 	  for(i=0; i<4; i++){
+			k->inf[i] = l->inf[i];
+		}
+ 	  
  	  if(l->inf[1] == 1){
- 	  	insere(pnt, l);	
+ 	  	insere(pnt, k);	
  	  
 	   }
 	   if(l->inf[1] == 2){
-	   	insere(esp, l);
+	   	insere(esp, k);
 	   }
 	   
 	   printf("================================\n");
